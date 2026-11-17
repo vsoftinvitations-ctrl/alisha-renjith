@@ -1,4 +1,4 @@
-# ALISHA - RANJITH Wedding Invitation
+# alisha-renjith
 
 Wedding Invitation website for **Ranjith & Alisha**  
 Date: 24 January 2027, Sunday  
