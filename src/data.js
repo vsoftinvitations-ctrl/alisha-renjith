@@ -16,7 +16,16 @@ export const W = {
     dotted: "24.01.2027",
     targetIso: "2027-01-24T12:13:00+05:30"
   },
+  thalikettu: {
+    title: "Thalikettu",
+    venue: "Sree Poornathrayeesha Temple",
+    city: "Thrippunithura, Kochi",
+    muhurtham: "12:13 PM to 12:23 PM",
+    address: "Kottakakom, Thrippunithura, Kochi, Ernakulam, Kerala – 682301",
+    map: "https://www.google.com/maps/dir//Sree+Poornathrayeesa+Temple,Tripunithura,+Poornathrayeesa+temple,+Kottakakom,+Thrippunithura,+Kochi,+Ernakulam,+Keralam+682301/@11.7768192,75.5373233,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0x3b08736d17e642eb:0xc990d3ca495c1963!2m2!1d76.3420693!2d9.9450423?hl=en_GB&entry=ttu&g_ep=EgoyMDI2MTExMC4wIKXMDSoASAFQAw%3D%3D"
+  },
   ceremony: {
+    title: "Wedding Ceremony & Celebration",
     venue: "Zamra International Convention Centre, Kalamassery",
     muhurtham: "12:13 PM to 12:23 PM",
     address: "Near Govt. Medical College Kalamassery, HMT Colony, Kalamassery, Kochi, Kerala – 683503",

@@ -988,6 +988,14 @@
       bride: "Alisha", groom: "Ranjith", brideFirst: "Alisha", groomFirst: "Ranjith", monogram: "R • A", footMono: "R & A",
       short: "Ranjith & Alisha",
       date: { full: "24 January 2027", day: "Sunday", num: "24", month: "January 2027", dots: "24 • 01 • 2027", dotted: "24.01.2027" },
+      thalikettu: {
+        title: "Thalikettu",
+        venue: "Sree Poornathrayeesha Temple",
+        city: "Thrippunithura, Kochi",
+        muhurtham: "12:13 PM to 12:23 PM",
+        address: "Kottakakom, Thrippunithura, Kochi, Ernakulam, Kerala – 682301",
+        map: "https://www.google.com/maps/dir//Sree+Poornathrayeesa+Temple,Tripunithura,+Poornathrayeesa+temple,+Kottakakom,+Thrippunithura,+Kochi,+Ernakulam,+Keralam+682301/@11.7768192,75.5373233,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0x3b08736d17e642eb:0xc990d3ca495c1963!2m2!1d76.3420693!2d9.9450423?hl=en_GB&entry=ttu&g_ep=EgoyMDI2MTExMC4wIKXMDSoASAFQAw%3D%3D"
+      },
       ceremony: {
         venue: "Zamra International Convention Centre, Kalamassery",
         muhurtham: "12:13 PM to 12:23 PM",
@@ -1110,8 +1118,21 @@
   </div>
 </div></section>
 
+${W.thalikettu ? `
 <section><div class="wrap">
-  <p class="label r">Wedding Ceremony</p>
+  <p class="label r">Thalikettu</p>
+  <div class="r">${pin}</div>
+  <h2 class="big r">${W.thalikettu.venue}</h2>
+  <div class="event-date-badge r">${D.day} &bull; ${D.full}</div>
+  <div class="time r" style="margin-top:12px;font-size:clamp(1.2rem,4vw,1.5rem);color:var(--gold)">Muhurtham: ${W.thalikettu.muhurtham || W.ceremony.muhurtham}</div>
+  <p class="small r" style="margin-top:10px;font-size:1.05rem;line-height:1.7;color:var(--mute)">${W.thalikettu.address}</p>
+  <div style="margin-top:28px" class="r">
+    <a class="btn" href="${W.thalikettu.map}" target="_blank" rel="noopener noreferrer">View Location on Google Maps</a>
+  </div>
+</div></section>` : ''}
+
+<section class="${W.thalikettu ? 'alt' : ''}"><div class="wrap">
+  <p class="label r">Wedding Ceremony &amp; Reception</p>
   <div class="r">${pin}</div>
   <h2 class="big r">${W.ceremony.venue}</h2>
   <div class="event-date-badge r">${D.day} &bull; ${D.full}</div>
@@ -1148,7 +1169,7 @@ ${W.groomReception ? `
   </div>
 </div></section>` : ''}
 
-<section class="alt"><div class="wrap">
+<section class="${W.thalikettu ? '' : 'alt'}"><div class="wrap">
   ${orn}
   <p class="body r">${W.invite}</p>
   ${orn}
