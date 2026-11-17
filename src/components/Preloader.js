@@ -63,7 +63,7 @@ export function renderPreloader(customConfig = {}) {
   const bgImg = customConfig.bgImage || BG_IMAGE_URL;
 
   return `
-    <div id="wedding-preloader" class="wedding-preloader preloader-animating" role="dialog" aria-modal="true" aria-label="Wedding Invitation Preloader">
+    <div id="wedding-preloader" class="wedding-preloader" role="dialog" aria-modal="true" aria-label="Wedding Invitation Preloader">
       <!-- Fullscreen Background Image with Ken Burns effect -->
       <div class="preloader-bg-media">
         <img src="${bgImg}" alt="${name1} &amp; ${name2}" class="preloader-bg-img" />
@@ -77,6 +77,19 @@ export function renderPreloader(customConfig = {}) {
         <span class="preloader-particle p4"></span>
         <span class="preloader-particle p5"></span>
         <span class="preloader-particle p6"></span>
+      </div>
+      <!-- Initial Gate: Center Tagline + Tap to Open Button placed close together -->
+      <div class="preloader-gate-wrapper" id="preloader-gate-wrapper">
+        <div class="preloader-gate-center">
+          <div class="preloader-gate-badge">
+            <span class="preloader-tagline">WEDDING INVITATION</span>
+          </div>
+          <div class="preloader-gate-bottom">
+            <button class="preloader-open-pill-btn" id="preloader-enter-btn" aria-label="Tap to Open Invitation">
+              <span>Tap to Open</span>
+            </button>
+          </div>
+        </div>
       </div>
       <!-- Center Handwriting Script Animation -->
       <div class="preloader-content" id="preloader-content-box">
@@ -126,7 +139,7 @@ export function initPreloader(onDismissCallback) {
     return;
   }
 
-  let stage = 'revealing';
+  let stage = 'waiting'; // 'waiting' | 'revealing' | 'dismissed'
   let autoDismissTimer = null;
 
   // Strict scroll lock on both html and body
@@ -136,8 +149,14 @@ export function initPreloader(onDismissCallback) {
   document.body.style.overflow = 'hidden';
   window.scrollTo(0, 0);
 
+  const enterBtn = document.getElementById('preloader-enter-btn');
+  const gateWrapper = document.getElementById('preloader-gate-wrapper');
+
   function preventScroll(e) {
     if (stage !== 'dismissed') {
+      if (enterBtn && (e.target === enterBtn || enterBtn.contains(e.target))) {
+        return;
+      }
       if (e.cancelable) {
         e.preventDefault();
       }
@@ -153,49 +172,43 @@ export function initPreloader(onDismissCallback) {
     document.fonts.load('48px "Brittany Signature"').catch(() => { });
   }
 
-  // 1. Play music immediately on load
-  playMusic();
+  function handleTapToOpen() {
+    if (stage !== 'waiting') return;
+    stage = 'revealing';
 
-  // Resume music on user interaction if restricted by browser autoplay policy
-  const resumeMusicOnGesture = () => {
+    // 1. Play music immediately on user gesture
     playMusic();
-    window.removeEventListener('click', resumeMusicOnGesture);
-    window.removeEventListener('touchstart', resumeMusicOnGesture);
-    window.removeEventListener('scroll', resumeMusicOnGesture);
-  };
-  window.addEventListener('click', resumeMusicOnGesture, { once: true });
-  window.addEventListener('touchstart', resumeMusicOnGesture, { once: true });
-  window.addEventListener('scroll', resumeMusicOnGesture, { once: true });
 
-  // 2. Start handwriting animation immediately on load
-  preloader.classList.add('preloader-animating');
+    // 2. Start handwriting animation
+    preloader.classList.add('preloader-animating');
 
-  // 3. Shimmer sweep after writing finishes (4.8s)
-  setTimeout(() => {
-    const scriptBox = document.getElementById('preloader-script-box');
-    if (scriptBox) {
-      scriptBox.classList.add('shimmer-active');
-      scriptBox.querySelectorAll('.script-text').forEach((el) => {
-        el.style.clipPath = 'none';
-        el.style.opacity = '1';
-        el.style.visibility = 'visible';
-      });
-    }
-  }, 4800);
+    // 3. Shimmer sweep after writing finishes (4.8s)
+    setTimeout(() => {
+      const scriptBox = document.getElementById('preloader-script-box');
+      if (scriptBox) {
+        scriptBox.classList.add('shimmer-active');
+        scriptBox.querySelectorAll('.script-text').forEach((el) => {
+          el.style.clipPath = 'none';
+          el.style.opacity = '1';
+          el.style.visibility = 'visible';
+        });
+      }
+    }, 4800);
 
-  // 4. Smooth reveal of the invitation page after animation
-  autoDismissTimer = setTimeout(() => {
-    dismissPreloader();
-  }, 6800);
+    // 4. Smooth reveal of the invitation page after animation (6.8s)
+    autoDismissTimer = setTimeout(() => {
+      dismissPreloader();
+    }, 6800);
 
-  // Tapping anywhere on the screen skips immediately to invitation
-  preloader.style.cursor = 'pointer';
-  preloader.addEventListener('click', () => {
-    dismissPreloader();
-  });
-  preloader.addEventListener('touchend', () => {
-    dismissPreloader();
-  }, { passive: true });
+    // Allow tapping anywhere on screen during revealing stage to skip immediately
+    setTimeout(() => {
+      preloader.addEventListener('click', () => {
+        if (stage === 'revealing') {
+          dismissPreloader();
+        }
+      }, { once: true });
+    }, 1500);
+  }
 
   function dismissPreloader() {
     if (stage === 'dismissed') return;
@@ -225,5 +238,34 @@ export function initPreloader(onDismissCallback) {
       preloader.style.display = 'none';
       preloader.setAttribute('aria-hidden', 'true');
     }, 1250);
+  }
+
+  let triggered = false;
+  function triggerOpen(e) {
+    if (triggered || stage !== 'waiting') return;
+    triggered = true;
+    if (e) {
+      if (e.cancelable) e.preventDefault();
+      e.stopPropagation();
+    }
+    handleTapToOpen();
+  }
+
+  if (enterBtn) {
+    enterBtn.addEventListener('click', triggerOpen);
+    enterBtn.addEventListener('touchend', triggerOpen, { passive: false });
+    enterBtn.addEventListener('pointerup', triggerOpen);
+    enterBtn.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') triggerOpen(e);
+    });
+  }
+
+  if (gateWrapper) {
+    gateWrapper.addEventListener('click', (e) => {
+      triggerOpen(e);
+    });
+    gateWrapper.addEventListener('touchend', (e) => {
+      triggerOpen(e);
+    }, { passive: true });
   }
 }

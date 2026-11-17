@@ -448,7 +448,7 @@ body.preloader-active #app>*:not(#wedding-preloader) {
   }
 }
 
-/* Gate Wrapper & Button (Legacy/Unused) */
+/* Tap to Open Gate Wrapper & Button */
 .preloader-gate-wrapper {
   position: absolute;
   top: 0;
@@ -496,7 +496,7 @@ body.preloader-active #app>*:not(#wedding-preloader) {
 }
 
 .preloader-gate-bottom {
-  margin-top: clamp(28px, 5.5vh, 48px);
+  margin-top: clamp(10px, 2vh, 14px);
   display: flex;
   align-items: center;
   justify-content: center;
