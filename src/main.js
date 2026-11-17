@@ -78,15 +78,14 @@ if (app) {
       <div class="r">${pin}</div>
       <h2 class="big r">${W.thalikettu.venue}</h2>
       <div class="event-date-badge r">${D.day} &bull; ${D.full}</div>
-      <div class="time r" style="margin-top:12px;font-size:clamp(1.2rem,4vw,1.5rem);color:var(--gold)">Muhurtham: ${W.thalikettu.muhurtham || W.ceremony.muhurtham}</div>
-      <p class="small r" style="margin-top:10px;font-size:1.05rem;line-height:1.7;color:var(--mute)">${W.thalikettu.address}</p>
+      <p class="small r" style="margin-top:14px;font-size:1.05rem;line-height:1.7;color:var(--mute)">${W.thalikettu.address}</p>
       <div style="margin-top:28px" class="r">
         <a class="btn" href="${W.thalikettu.map}" target="_blank" rel="noopener noreferrer">View Location on Google Maps</a>
       </div>
     </div></section>` : ''}
 
     <section class="${W.thalikettu ? 'alt' : ''}"><div class="wrap">
-      <p class="label r">Wedding Ceremony &amp; Reception</p>
+      <p class="label r">Wedding Ceremony</p>
       <div class="r">${pin}</div>
       <h2 class="big r">${W.ceremony.venue}</h2>
       <div class="event-date-badge r">${D.day} &bull; ${D.full}</div>
