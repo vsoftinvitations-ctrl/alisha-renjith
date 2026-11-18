@@ -143,13 +143,6 @@ if (app) {
       <div class="rule line-x r"></div>
     </div></section>
 
-    <section><div class="wrap" style="max-width:560px">
-      <div class="gal">
-        <div class="ph ga r"><img src="${PHOTOS.a}" alt="${W.groom} and ${W.bride}" loading="lazy" decoding="async"></div>
-        <div class="ph gb r"><img src="${PHOTOS.b}" alt="${W.groom} and ${W.bride}" loading="lazy" decoding="async"></div>
-      </div>
-    </div></section>
-
     <section style="padding-block:clamp(100px,22vw,200px)"><div class="wrap">
       <h2 class="names r" style="font-size:clamp(2.2rem,9vw,3.4rem)">${W.short}</h2>
       <p class="serif r" style="font-size:1.4rem;letter-spacing:.2em;margin-top:24px">${D.dots}</p>
